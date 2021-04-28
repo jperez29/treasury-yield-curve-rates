@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template, jsonify,redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
   
 app = Flask(__name__)
@@ -22,7 +22,6 @@ class TreasuryYieldTable(db.Model):
     ten_year = db.Column(db.Float, nullable=False)
     twenty_year = db.Column(db.Float, nullable=False)
     thirty_year = db.Column(db.Float, nullable=False)
-    date_fetched = db.Column(db.String(255), nullable=False)
 
     def __repr__(self):
         return f"<Treasury yield curve rates {self.id} {self.date}>"
