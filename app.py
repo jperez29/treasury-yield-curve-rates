@@ -25,6 +25,9 @@ class TreasuryYieldTable(db.Model):
 
     def __repr__(self):
         return f"<Treasury yield curve rates {self.id} {self.date}>"
-
+        
+@app.route('/', methods=['GET'])
+def home():
+    return render_template('home.html')
 if __name__=='__main__':
     app.run(debug=True)

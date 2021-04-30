@@ -75,11 +75,11 @@ def make_chart(data, filename):
     plt.title('Daily US Treasury Yield Curve')
     plt.legend(loc='upper left')
     plt.grid(False)
-    plt.show()
 
     #code to save chart in a file with the date when it was created
     plt.savefig(f'charts/{filename}.png')
     print("completed")
+    plt.show()
     
 def main():
     setup_db()
@@ -94,6 +94,4 @@ def main():
     make_chart(df, f'test-{dt_fmt}')
 
 if __name__ == '__main__':
-    # scrape()
-    #setup_db()
     main()
