@@ -1,6 +1,6 @@
 # week-29-project
 
-<div align="center"><img src="./img/head.jpg"></div>
+<!-- <div align="center"><img src="./img/head.jpg"></div> -->
 
 ## Contents
 
