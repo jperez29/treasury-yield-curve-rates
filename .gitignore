@@ -1,6 +1,18 @@
-# Jupyter Notebook
-.ipynb_checkpoints
 #every database is going to be ignored, not going to be added to repo
 *.db 
 
+# General
+.DS_Store
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+
+# Python
 *.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints

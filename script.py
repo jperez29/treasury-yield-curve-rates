@@ -4,7 +4,7 @@ from app import db, TreasuryYieldTable
 import datetime as dt
 import pandas as pd
 import sqlite3 as sql
-import numpy as np 
+# import numpy as np 
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 
@@ -13,9 +13,6 @@ def scrape():
     response = requests.get(url).text
     soup = BeautifulSoup(response, "html.parser")
     table = soup.find("table", attrs={"class": "t-chart"})
-
-    #printing the entire table
-    #print(table.prettify())
     
     #getting every row of table
     trs = table.findAll("tr")
@@ -42,6 +39,7 @@ def scrape():
         j +=13
     return data_lst
 
+    #adding data scrapped into database
 def setup_db():
     data = scrape()
     db.drop_all()
@@ -56,18 +54,17 @@ def setup_db():
         db.session.commit()
 
 def make_chart(data, filename):
-    #I am doing this work in make_chart notebook for now
-    #this code creates the chart
+    #this function creates a chart from a dataframe
     df = data
     print("generating matplotlib chart")
     plt.style.use('bmh')
-    plt.figure(figsize=(15,7))
+    plt.figure(figsize=(20,15))
     x = ['1 month', '2 month', '3 month', '6 month', '1 year', '2 year', '3 year', '5 year', '7 year', '10 year', '20 year', '30 year']
     y1 = list(df.iloc[-1][2:])
     y2 = list(df.iloc[-2][2:])
     y3 = list(df.iloc[-3][2:])
     plt.plot(x, y1, 'gs-', label = df.iloc[-1][1],markersize=8, linewidth=3.0, path_effects=[path_effects.SimpleLineShadow(shadow_color="green", linewidth=5),path_effects.Normal()])
-    plt.plot(x, y2, '^-' ,color='magenta', label = df.iloc[-2][1], markersize=6, path_effects=[path_effects.SimpleLineShadow(shadow_color="red", linewidth=5),path_effects.Normal()])
+    plt.plot(x, y2, '^-' ,color='red', label = df.iloc[-2][1], markersize=6, path_effects=[path_effects.SimpleLineShadow(shadow_color="red", linewidth=5),path_effects.Normal()])
     plt.plot(x, y3, 'bo-' , label = df.iloc[-3][1], markersize=4, path_effects=[path_effects.SimpleLineShadow(shadow_color="blue", linewidth=5),path_effects.Normal()])
     plt.title('Treasury Yield Curve')
     plt.xlabel('Maturity')
@@ -86,8 +83,9 @@ def main():
     #to get today's date
     dt_now = dt.datetime.now()
     dt_fmt = dt_now.strftime("%m-%d-%y")
-    #this is where I'll read the data in the sqlite3 as a df
-    #will pass this data as the first argument in make_chart function
+
+    #reading the data in the sqlite3 as a df
+    #will pass this dataframe as the first argument in make_chart function
     db = 'treasury_yield_curve_rates.db'
     conn = sql.connect(db) 
     df = pd.read_sql("SELECT * FROM treasury_yield_table;", conn) 
