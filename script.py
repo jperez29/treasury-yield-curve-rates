@@ -85,7 +85,7 @@ def main():
     setup_db()
     #to get today's date
     dt_now = dt.datetime.now()
-    dt_fmt = dt_now.strftime("%m-%d-%y-%H%M%S")
+    dt_fmt = dt_now.strftime("%m-%d-%y")
     #this is where I'll read the data in the sqlite3 as a df
     #will pass this data as the first argument in make_chart function
     db = 'treasury_yield_curve_rates.db'

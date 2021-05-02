@@ -1,5 +1,6 @@
-from flask import Flask, render_template, jsonify,redirect, url_for
+from flask import Flask, render_template, jsonify,redirect, url_for, send_file
 from flask_sqlalchemy import SQLAlchemy
+from datetime import date
   
 app = Flask(__name__)
 
@@ -25,9 +26,20 @@ class TreasuryYieldTable(db.Model):
 
     def __repr__(self):
         return f"<Treasury yield curve rates {self.id} {self.date}>"
-        
+
 @app.route('/', methods=['GET'])
 def home():
     return render_template('home.html')
+
+@app.route('/charts/<chart>', methods = ['GET'])
+def get_chart(chart):
+    return send_file('charts/'+chart, mimetype = "image/png")
+
+@app.route('/get_chart_today', methods = ['GET'])  
+def get_chart_today():
+    today = date.today()
+    d = today.strftime("%m-%d-%y")
+    return send_file(f'charts/test-{d}.png')
+    
 if __name__=='__main__':
     app.run(debug=True)
