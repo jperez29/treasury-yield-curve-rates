@@ -35,11 +35,12 @@ def home():
 def get_chart(chart):
     return send_file('charts/'+chart, mimetype = "image/png")
 
+#to display the chart with the latest data
 @app.route('/get_chart_today', methods = ['GET'])  
 def get_chart_today():
     today = date.today()
     d = today.strftime("%m-%d-%y")
     return send_file(f'charts/test-{d}.png')
-    
+
 if __name__=='__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

@@ -4,7 +4,6 @@ from app import db, TreasuryYieldTable
 import datetime as dt
 import pandas as pd
 import sqlite3 as sql
-# import numpy as np 
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 
@@ -39,7 +38,6 @@ def scrape():
         j +=13
     return data_lst
 
-    #adding data scrapped into database
 def setup_db():
     data = scrape()
     db.drop_all()
@@ -73,7 +71,7 @@ def make_chart(data, filename):
     plt.legend(loc='upper left')
     plt.grid(False)
 
-    #code to save chart in a file with the date when it was created
+    #saving chart in a file with the date when it was created
     plt.savefig(f'charts/{filename}.png')
     print("completed")
     plt.show()
@@ -85,7 +83,7 @@ def main():
     dt_fmt = dt_now.strftime("%m-%d-%y")
 
     #reading the data in the sqlite3 as a df
-    #will pass this dataframe as the first argument in make_chart function
+    #passing this dataframe as the first argument in make_chart function
     db = 'treasury_yield_curve_rates.db'
     conn = sql.connect(db) 
     df = pd.read_sql("SELECT * FROM treasury_yield_table;", conn) 
